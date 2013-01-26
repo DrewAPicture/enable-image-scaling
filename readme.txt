@@ -3,8 +3,8 @@ Contributors: DrewAPicture
 Donate link: http://wordpressfoundation.org/
 Tags: uploads, media, images, scale
 Requires at least: 3.3
-Tested up to: 3.5
-Stable tag: 1.0.3
+Tested up to: 3.5.1
+Stable tag: 1.0.3.1
 
 This enables you to set maximum height and width dimensions for images uploaded through WordPress.
 
@@ -42,6 +42,11 @@ Since the ability to set custom dimensions was added for 3.5, the options were m
 
 == Changelog ==
 
+= 1.0.3.1 =
+
+* Fix Dutch translation filename
+* Regenerate POT file with strings
+
 = 1.0.3 = 
 
 * Add Dutch translation (props <a href="http://wordpress.org/support/profile/theohoutman">Theo Houtman</a>)
@@ -78,6 +83,11 @@ Since the ability to set custom dimensions was added for 3.5, the options were m
 * Initial upload.
 
 == Upgrade Notice ==
+
+= 1.0.3.1 =
+
+* Fix Dutch translation filename
+* Regenerate POT file with strings
 
 = 1.0.3 =
 

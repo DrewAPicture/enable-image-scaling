@@ -3,7 +3,7 @@
 Plugin Name: Enable Image Scaling on Upload
 Plugin URI: http://www.werdswords.com
 Description: This allows you to set a maximum height and width for original-sized images to be scaled down to when uploaded in WordPress.
-Version: 1.0.3
+Version: 1.0.3.1
 Author: Drew Jaynes (DrewAPicture)
 Author URI: http://www.werdswords.com
 License: GPLv2

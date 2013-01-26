@@ -1,10 +1,11 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Enable Image Scaling on Upload\n"
-"POT-Creation-Date: 2012-12-17 00:51-0700\n"
-"PO-Revision-Date: 2012-12-17 00:58-0700\n"
+"Project-Id-Version: Enable Image Scaling\n"
+"POT-Creation-Date: 2013-01-26 10:27-0700\n"
+"PO-Revision-Date: 2013-01-26 10:28-0700\n"
 "Last-Translator: \n"
-"Language-Team: Drew Jaynes (DrewAPicture)\n"
+"Language-Team: Drew Jaynes (DrewAPicture) <info@drewapicture.com>\n"
+"Language: English\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,3 +14,71 @@ msgstr ""
 "_ex;esc_attr_x;esc_html_x;_n;_nx;_n_noop;_nx_noop\n"
 "X-Poedit-Basepath: ../\n"
 "X-Poedit-SearchPath-0: .\n"
+
+#: enable-image-scaling-on-upload.php:146
+msgid "Image Scaling Options"
+msgstr ""
+
+#: enable-image-scaling-on-upload.php:152
+#: enable-image-scaling-on-upload.php:350
+msgid "Image Scaling"
+msgstr ""
+
+#: enable-image-scaling-on-upload.php:153
+msgid "Max Width"
+msgstr ""
+
+#: enable-image-scaling-on-upload.php:154
+msgid "Max Height"
+msgstr ""
+
+#: enable-image-scaling-on-upload.php:167
+msgid ""
+"Scaling will resize your original images on upload. Empty or 0 settings "
+"default to one and a half times the large size value."
+msgstr ""
+
+#: enable-image-scaling-on-upload.php:170
+msgid ""
+"Scaling will resize your original images on upload. In your WordPress "
+"version, dimensions equal one and a half times the large image size value."
+msgstr ""
+
+#: enable-image-scaling-on-upload.php:186
+msgid " Enable image scaling on upload"
+msgstr ""
+
+#: enable-image-scaling-on-upload.php:230
+msgid ""
+"Upgrade to <a href=\"http://wordpress.org/download/\" target=\"new"
+"\">WordPress 3.5</a> to set custom dimensions!"
+msgstr ""
+
+#: enable-image-scaling-on-upload.php:239
+msgid "Settings"
+msgstr ""
+
+#: enable-image-scaling-on-upload.php:321
+msgid "media settings"
+msgstr ""
+
+#: enable-image-scaling-on-upload.php:333
+#, php-format
+msgid ""
+"Per your %1$s, all images will be scaled with max-dimensions of %2$d x %3$dpx"
+msgstr ""
+
+#: enable-image-scaling-on-upload.php:345
+msgid ""
+"When this option is enabled, every time you upload an image, the original "
+"will be scaled to fix the maximum height and width dimensions you have set. "
+"This process is very similar to how the max height and width dimensions work "
+"with thumbnail, medium, and large image sizes."
+msgstr ""
+
+#: enable-image-scaling-on-upload.php:346
+msgid ""
+"What is the benefit of scaling on upload? Original images can have huge, "
+"unrealistic dimensions and can take up a lot of space on your server. "
+"Scaling images down helps to keep your server costs lower."
+msgstr ""
