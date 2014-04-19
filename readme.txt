@@ -3,22 +3,14 @@ Contributors: DrewAPicture
 Donate link: http://wordpressfoundation.org/
 Tags: uploads, media, images, scale
 Requires at least: 3.3
-Tested up to: 3.5.1
-Stable tag: 1.0.3.1
+Tested up to: 3.9.0
+Stable tag: 1.0.4
 
 This enables you to set maximum height and width dimensions for images uploaded through WordPress.
 
 == Description ==
 
-Have problems with large images clogging up your uploads directory and taking up more space than necessary? Now you set a set of dimensions that all images will be scaled down to when uploaded through WordPress.
-
-<strong>Complete 1.0 Rewrite!</strong>
-
-* Supports the new Media Manager workflow introduced in 3.5
-* <strong>3.5 Only:</strong> Set custom height and width dimensions instead of resizing to the "large size" dimensions
-* Fully backward-compatible to WordPress 3.3
-
-Now translated to Dutch! (thanks: <a href="http://wordpress.org/support/profile/theohoutman">Theo Houtman</a>)
+Have problems with large images clogging up your uploads directory and taking up more space than necessary? Now you an configure a set of dimensions that all images will be scaled down to when uploaded through WordPress.
 
 If you have a bug fix or wish to contribute, check out the <a href="https://github.com/DrewAPicture/enable-image-scaling" target="_new">GitHub repository</a>. Pull requests welcome.
 
@@ -32,7 +24,7 @@ If you have a bug fix or wish to contribute, check out the <a href="https://gith
 
 = There used to be a checkbox on the upload screen, what happened to it? =
 
-Since the ability to set custom dimensions was added for 3.5, the options were moved into the Settings > Media screen. There, you can enable or disable the feature globally.
+Since the ability to set custom dimensions was added in 3.5, the options were moved into the Settings > Media screen. There, you can enable or disable the feature globally.
 
 == Screenshots ==
 
@@ -41,6 +33,11 @@ Since the ability to set custom dimensions was added for 3.5, the options were m
 2. Image Scaling option displayed on the new uploader screen.
 
 == Changelog ==
+
+= 1.0.4 =
+
+* Inline documentation improvements.
+* Minor refactoring.
 
 = 1.0.3.1 =
 
@@ -83,6 +80,10 @@ Since the ability to set custom dimensions was added for 3.5, the options were m
 * Initial upload.
 
 == Upgrade Notice ==
+
+= 1.0.4 =
+
+* Nothing drastic. Just bumping the stable tag.
 
 = 1.0.3.1 =
 
