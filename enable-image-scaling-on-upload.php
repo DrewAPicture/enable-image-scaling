@@ -1,13 +1,13 @@
 <?php
-/*
-Plugin Name: Enable Image Scaling on Upload
-Plugin URI: http://www.werdswords.com
-Description: This allows you to set a maximum height and width for original-sized images to be scaled down to when uploaded in WordPress.
-Version: 1.0.3.1
-Author: Drew Jaynes (DrewAPicture)
-Author URI: http://www.werdswords.com
-License: GPLv2
-*/
+/**
+ * Plugin Name: Enable Image Scaling on Upload
+ * Plugin URI: http://www.werdswords.com
+ * Description: This allows you to set a maximum height and width for original-sized images to be scaled down to when uploaded in WordPress.
+ * Version: 1.0.4
+ * Author: Drew Jaynes (DrewAPicture)
+ * Author URI: http://www.werdswords.com
+ * License: GPLv2
+ */
 
 /******************************************************************
 /*	  DEVELOPER NOTES
@@ -43,35 +43,34 @@ class WW_Image_Scaling {
 	var $large_h;
 	var $multiplier;
 	var $is_current;
-	
+
 	/**
-	 * Initialize
+	 * Set up the plugin.
 	 *
-	 * @uses get_option() gets our 3 options, a checkbox value and two number fields
 	 * @since 1.0
 	 */
-	function __construct() {
+	public function __construct() {
 
 		load_plugin_textdomain( 'ww_image_scaling', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 		register_activation_hook( __FILE__, array( $this, 'activate' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) ); 
 
-		// Options
+		// Options.
 		$this->enabled = get_option( 'ww_scaling_enabled' );
-		$this->width = get_option( 'ww_scaling_width' );
-		$this->height = get_option( 'ww_scaling_height' );
+		$this->width   = get_option( 'ww_scaling_width' );
+		$this->height  = get_option( 'ww_scaling_height' );
 
-		// Large image size dimensions
-		$this->large_w = get_option( 'large_size_w' );
-		$this->large_h = get_option( 'large_size_h' );
+		// Large image size dimensions.
+		$this->large_w    = get_option( 'large_size_w' );
+		$this->large_h    = get_option( 'large_size_h' );
 		$this->multiplier = apply_filters( 'ww_scaling_size_multiplier', 1.5 );
 
 		// Are we in 3.5+?
 		global $wp_version;
 		$this->is_current = version_compare( $wp_version, '3.4.2', '>' );
 
-		// Action and filter hooks
+		// Action and filter hooks.
 		$this->hooks();
 	}
 
@@ -88,17 +87,14 @@ class WW_Image_Scaling {
 	}
 
 	/**
-	 * Deactivation Functions
+	 * Deactivation functions.
 	 *
-	 * Upon deactivation, we need to reset the upload_resize user setting for all users
+	 * Upon deactivation, we need to reset the upload_resize user setting for all users.
 	 *
-	 * @uses get_users() to retrieve all users author and above because they have upload_files cap
-	 * @uses get_user_option() to retrieve the user-settings option string
-	 * @uses update_user_option to update the user-settings option string
-	 * @return null
 	 * @since 1.0
 	 */
 	function deactivate() {
+		// Retrieve all users author and above because they have upload_files cap.
 		$users = get_users( array( 'who' => 'authors' ) );
 		foreach ( $users as $user ) {
 			$settings = get_user_option( 'user-settings', $user->ID );
@@ -108,25 +104,23 @@ class WW_Image_Scaling {
 	}
 
 	/**
-	 * Action & Filter Hooks
+	 * Hooks.
 	 *
-	 * @uses add_filter() to filter plupload defaults 3.5+
-	 * @uses add_action() to add various actions
 	 * @since 1.0
 	 */
 	function hooks() {
 		if ( $this->enabled ) {
 			add_filter( 'plupload_default_settings', array( $this, 'uploads_scaling' ) );
-			add_action( 'pre-plupload-upload-ui', array( $this, 'media_new_scaling' ) );
-			add_action( 'post-upload-ui', array( $this, 'uploader_message' ) );
-			add_action( 'plugins_loaded', array( $this, 'backcompat_set_defaults' ) );
+			add_action( 'pre-plupload-upload-ui',    array( $this, 'media_new_scaling' ) );
+			add_action( 'post-upload-ui',            array( $this, 'uploader_message' ) );
+			add_action( 'plugins_loaded',            array( $this, 'backcompat_set_defaults' ) );
 		} else {
-			add_action( 'plugins_loaded', array( $this, 'backcompat_unset_defaults' ) );
+			add_action( 'plugins_loaded',            array( $this, 'backcompat_unset_defaults' ) );
 		}
 
-		add_action( 'admin_init', array( $this, 'setup_settings' ) );
+		add_action( 'admin_init',                                         array( $this, 'setup_settings' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'settings_link' ) );
-		add_action( 'admin_head-options-media.php', array( $this, 'help_tabs' ) );		
+		add_action( 'admin_head-options-media.php',                       array( $this, 'help_tabs' ) );
 	}
 
 	/*************************
@@ -134,15 +128,14 @@ class WW_Image_Scaling {
 	*************************/
 
 	/**
-	 * Setup Media Settings
+	 * Setup Media settings.
 	 *
-	 * @todo Find a way to serialize the settings while still allowing unique callbacks
-	 * @uses add_settings_section() to register the scaling options on options-media.php.
-	 * @uses register_setting() to register our 3 settings, a checkbox and 2 number inputs.
-	 * @uses add_settings_field() to setup display callbacks for the 3 registered settings.
+	 * @todo Find a way to serialize the settings while still allowing unique callbacks.
+	 *
 	 * @since 1.0
 	 */
 	function setup_settings() {
+		// Register the scaling options on options-media.php.
 		add_settings_section( 'scaling_options', __( 'Image Scaling Options', 'ww_image_scaling' ), array( $this, 'section_cb' ), 'media' );
 
 		register_setting( 'media', 'ww_scaling_enabled' );
@@ -155,7 +148,7 @@ class WW_Image_Scaling {
 	}
 
 	/**
-	 * Section Callback
+	 * Media settings section callback.
 	 *
 	 * Print some contextual help text below the section title on options-media.php
 	 *
@@ -171,28 +164,23 @@ class WW_Image_Scaling {
 	}
 
 	/**
-	 * Checkbox Callback
+	 * 'Enable' display callback.
 	 *
-	 * Print our 'Enable' checkbox and label
-	 *
-	 * @uses checked() to handle the checkbox field and state
-	 * @return null
 	 * @since 1.0
 	 */
 	function checkbox_cb() {
 		printf( '<input name="ww_scaling_enabled" type="checkbox" value="1" class="code" %1$s/>%2$s',
 			checked( esc_attr( get_option( 'ww_scaling_enabled' ) ), true, false ),
-			/* Translators: The leading space is intentional to space the text away from the checkbox */
-			_e( ' Enable image scaling on upload', 'ww_image_scaling' )
+			/* translators: The leading space is intentional to space the text away from the checkbox */
+			__( ' Enable image scaling on upload', 'ww_image_scaling' )
 		);
 	}
 
 	/**
-	 * Width Setting Callback
+	 * Width setting display callback.
 	 *
-	 * @uses get_option() to pull our width setting. Defaults to 1.5 times the large size width if empty or zero.
-	 * @uses update_option() to update ww_scaling_width to the value of large_size_w if less than 1.
-	 * @return null
+	 * Defaults to 1.5 times the large size width if empty or zero.
+	 *
 	 * @since 1.0
 	 */
 	function width_cb() {
@@ -208,11 +196,10 @@ class WW_Image_Scaling {
 	}
 
 	/**
-	 * Height Setting Callback
+	 * Height setting display callback.
 	 *
-	 * @uses get_option() to pull our height setting. Defaults to the 1.5 times the large size height if empty or zero.
-	 * @uses update_option() to update ww_scaling_height to the value of large_size_h if less than 1.
-	 * @return null
+	 * Defaults to 1.5 times the largue size height if empty or zero.
+	 *
 	 * @since 1.0
 	 */
 	function height_cb() {
@@ -231,7 +218,7 @@ class WW_Image_Scaling {
 	}
 
 	/**
-	 * 'Settings' Link
+	 * Add 'Settings' link to plugin row.
 	 *
 	 * @since 1.0
 	*/
@@ -244,35 +231,39 @@ class WW_Image_Scaling {
 	*************************/
 
 	/**
-	 * Filter plupload defaults 3.5+
+	 * Filter plupload defaults 3.5+.
 	 *
-	 * 3.5+ is so easy, we just filter the plupload $defaults array.
-	 *
-	 * @uses apply_filters() to make the quality setting filterable (3.5+)
-	 * @return array $defaults
 	 * @since 1.0
+	 *
+	 * @param array $defaults Plupload default settings.
+	 * @return array Filtered Plupload settings.
 	 */
 	function uploads_scaling( $defaults ) {
 		$defaults['resize'] = array(
-			'width' => absint( $this->width ),
-			'height' => absint( $this->height ),
+			'width'   => absint( $this->width ),
+			'height'  => absint( $this->height ),
+
+			/**
+			 * Filter the Plupload scaling quality.
+			 *
+			 * @since 1.0
+			 *
+			 * @param int $quality Scaling quality. Default 100.
+			 */
 			'quality' => apply_filters( 'ww_scaling_quality_filter', 100 )
 		);
 		return $defaults;
 	}
 
 	/**
-	 * Override plupload defaults (3.5 media-new.php)
+	 * Override Plupload defaults (3.5 media-new.php).
 	 *
 	 * This function adds support for the media-new.php uploader in 3.5 that still relies 
 	 * on logic in handlers.js. We override the resize_width and resize_height JavaScript
-	 * variables hard-coded by core by printing our own values on a nearby action hook.
+	 * variables hard-coded by core, by printing our own values on a nearby action hook.
 	 * 
 	 * Unlike pre-3.5, we can set custom dimensions for our height and width overrides.
 	 * 
-	 * @uses global $wp_version to get the WordPress version
-	 * @uses get_current_screen() to retrieve the screen object
-	 * @return null
 	 * @since 1.0
 	 */
 	function media_new_scaling() {
@@ -286,7 +277,7 @@ class WW_Image_Scaling {
 	*************************/
 
 	/**
-	 * Back-compat user settings
+	 * Back-compat user settings.
 	 *
 	 * The following two methods, backcompat_set_defaults() and backcompat_unset_defaults()
 	 * enable and disable the upload_resize user setting needed to enable image scaling pre-3.5
@@ -305,16 +296,15 @@ class WW_Image_Scaling {
 	*************************/
 
 	/**
-	 * Uploader Message / Back-compat hidden input
+	 * Uploader Message / Back-compat hidden input.
 	 *
 	 * This function serves a dual purpose:
-	 * 	1. Prints a helpful message on the upload screen / media modal informing the user about the image scaling.
-	 * 	2. Prints a hidden checkbox for pre-3.5 use. The checkbox, when paired with a user setting we enable in
-	 * 	   $this->backcompat_set_defaults(), allows users to scale images based on the large image size max dimensions.
+	 * 	1. Prints a helpful message on the upload screen / media modal informing the user
+	 *     about the image scaling.
+	 * 	2. Prints a hidden checkbox for pre-3.5 use. The checkbox, when paired with a user
+	 *     setting we enable in $this->backcompat_set_defaults(), allows users to scale
+	 *     images based on the large image size max dimensions.
 	 * 
-	 * @uses current_user_can() to check if the user can manage options. If no manage_options cap, the anchor is not linked.
-	 * @uses admin_url() to generate the admin URL for options-media.php
-	 * @return null
 	 * @since 1.0
 	 */
 	function uploader_message() {
@@ -323,22 +313,23 @@ class WW_Image_Scaling {
 			$this->width = $this->large_w;
 			$this->height = $this->large_h;
 
-			// 3.3 and 3.4 rely on _both_ the upload_resize user setting and the value of the checkbox
-			// The user setting is enabled via $this->backcompat_set_defaults()
+			/*
+			 * 3.3 and 3.4 rely on _both_ the upload_resize user setting and the value
+			 * of the checkbox. The user setting is enabled via $this->backcompat_set_defaults()
+			 */
 
-			/* WP 3.4.2 and earlier */
+			// WP 3.4.2 and earlier.
 			echo '<input name="image_resize" type="checkbox" id="image_resize" style="display:none" value="true" checked="true" />';							
 		}
-			/* Translators: This is for WP 3.5 and later */
+			/* translators: This is for WP 3.5 and later */
 			echo '<p>' . sprintf( __( 'Per your %1$s, all images will be scaled with max-dimensions of %2$d x %3$dpx', 'ww_image_scaling' ), $link,  esc_attr( $this->width ), esc_attr( $this->height ) ) . '</p>';
 	}
 
 	/**
-	 * Help Tabs
+	 * Help tabs.
 	 *
-	 * Here we add a help tab on options-media.php to better explain the benefits of image scaling, etc.
-	 * 
-	 * @uses get_current_screen()::add_help_tab() to add the help tab to media.php
+	 * Add a help tab on options-media.php to better explain the benefits of image scaling, etc.
+	 *
 	 * @since 1.0
 	 */ 
 	function help_tabs() {
@@ -351,6 +342,7 @@ class WW_Image_Scaling {
 			'content' => $image_scaling_text
 		) );
 	}
+
 } // WW_Image_Scaling
 
 new WW_Image_Scaling;
